@@ -1,7 +1,7 @@
 [init]
   templatedir = ~/.git_template
 [push]
-  default = current
+  default = simple
 [color]
   ui = auto
 [alias]
@@ -12,6 +12,8 @@
   ci = commit -v
   co = checkout
   st = status
+  l  = log --oneline --decorate --graph
+  lg = log --graph --abbrev-commit --decorate --date=relative --format=format:'%C(blue)%h%C(reset) - %C(green)(%ar)%C(reset) %C(white)%s%C(reset) %C(bold white)- %an%C(reset)%C(yellow)%d%C(reset)' --all
 [core]
   excludesfile = ~/.gitignore
   autocrlf = input
