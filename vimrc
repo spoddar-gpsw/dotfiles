@@ -151,3 +151,93 @@ set diffopt+=vertical
 if filereadable($HOME . "/.vimrc.local")
   source ~/.vimrc.local
 endif
+
+set nocompatible        " don't bother with vi compatibility
+syntax enable           " enable syntax highlighting
+
+set filetype=on " without this vim emits a zero exit status, later, because of :ft off
+set rtp+=~/.vim/bundle/Vundle.vim  " configure Vundle
+set runtimepath+=~/.vim/plugged/neocomplete.vim/
+
+call vundle#begin() " install Vundle bundles
+if filereadable(expand("~/.vimrc.bundles"))
+  source ~/.vimrc.bundles
+  source ~/.vimrc.bundles.local
+endif
+
+call vundle#end()
+
+filetype plugin indent on " ensure ftdetect et al work by including this after the Vundle stuff
+
+set autoindent
+set autoread                                                 " reload files when changed on disk, i.e. via `git checkout`
+set backspace=2                                              " Fix broken backspace in some setups
+set backupcopy=yes                                           " see :help crontab
+set clipboard=unnamed                                        " yank and paste with the system clipboard
+set cursorline                                               " enable horizontal line
+" set cursorcolumn                                             " enable vertical line
+set directory-=.                                             " don't store swapfiles in the current directory
+set encoding=utf-8
+set expandtab                                                " expand tabs to spaces
+set ignorecase                                               " case-insensitive search
+set incsearch                                                " search as you type
+set laststatus=2                                             " always show statusline
+set list                                                     " show trailing whitespace
+set listchars=tab:▸\ ,trail:▫
+set number                                                   " show line numbers
+set ruler                                                    " show where you are
+set scrolloff=3                                              " show context above/below cursorline
+set shiftwidth=2                                             " normal mode indentation commands use 2 spaces
+set showcmd
+set smartcase                                                " case-sensitive search if any caps
+set softtabstop=2                                            " insert mode tab and backspace use 2 spaces
+set tabstop=8                                                " actual tabs occupy 8 characters
+set wildignore=log/**,node_modules/**,target/**,tmp/**,*.rbc
+set wildmenu                                                 " show a navigable menu for tab completion
+set wildmode=longest,list,full
+
+" keyboard shortcuts
+let mapleader = ','
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+noremap <leader>l :Align
+nnoremap <leader>a :Ag<space>
+nnoremap <leader>b :CtrlPBuffer<CR>
+nnoremap <leader>d :NERDTreeToggle<CR>
+nnoremap <leader>f :NERDTreeFind<CR>
+nnoremap <leader>t :CtrlP<CR>
+nnoremap <leader>T :CtrlPClearCache<CR>:CtrlP<CR>
+nnoremap <leader>] :TagbarToggle<CR>
+nnoremap <leader><space> :call whitespace#strip_trailing()<CR>
+nnoremap <leader>g :GitGutterToggle<CR>
+noremap <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
+
+" in case you forgot to sudo
+" cnoremap w!! %!sudo tee > /dev/null %
+" go specific settings
+autocmd FileType go nmap <leader>b  <Plug>(go-build)
+autocmd FileType go nmap <leader>r  <Plug>(go-run)
+autocmd FileType go nmap <leader>t  <Plug>(go-test)
+autocmd FileType go nmap <Leader>c <Plug>(go-coverage-toggle)
+autocmd BufEnter * set cursorline
+autocmd BufLeave * set nocursorline
+
+highlight CursorLine   cterm=NONE ctermbg=black ctermfg=NONE guibg=black guifg=NONE
+" highlight CursorColumn cterm=NONE ctermbg=black ctermfg=NONE guibg=black guifg=NONE
+
+let g:go_fmt_command = "goimports"
+let g:go_fmt_fail_silently = 1
+let g:go_highlight_types = 1
+
+" plugin settings
+let g:ctrlp_match_window = 'order:ttb,max:20'
+let g:neocomplete#enable_at_startup = 1
+let g:NERDSpaceDelims=1
+let g:gitgutter_enabled = 1
+
+" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
+" Don't copy the contents of an overwritten selection.
+" vnoremap p "_dP
+
